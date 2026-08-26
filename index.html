@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#5b5cf0" />
+  <title>SchoolPortal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="toast" class="toast" aria-live="polite"></div>
+  <div id="app" class="app">
+    <aside id="sidebar" class="sidebar">
+      <div class="brand"><div class="brandmark">S</div><div><strong>SchoolPortal</strong><span>Delta College</span></div></div>
+      <nav id="nav"></nav>
+      <div class="sidebar-bottom">
+        <div class="role-box"><small>Bekijk als</small><div><button data-role="leerling">Leerling</button><button data-role="docent">Docent</button></div></div>
+        <button class="nav-btn" id="logoutBtn"><span>↪</span> Uitloggen</button>
+      </div>
+    </aside>
+    <button id="scrim" class="scrim" aria-label="Menu sluiten"></button>
+
+    <main class="workspace">
+      <header class="topbar">
+        <div class="title-wrap"><button id="menuBtn" class="icon-btn mobile">☰</button><div><span id="portalLabel">Leerlingportaal</span><h1 id="pageTitle">Dashboard</h1></div></div>
+        <div class="actions"><label class="search"><span>⌕</span><input id="searchInput" placeholder="Zoeken..." /></label><button id="themeBtn" class="icon-btn">☾</button><button class="icon-btn bell">♧<i></i></button><div id="avatar" class="avatar">LW</div></div>
+      </header>
+      <section id="content" class="content"></section>
+    </main>
+  </div>
+
+  <dialog id="modal" class="modal"><form method="dialog"><button class="modal-close" value="cancel">×</button><div id="modalContent"></div></form></dialog>
+  <script src="script.js"></script>
+</body>
+</html>
