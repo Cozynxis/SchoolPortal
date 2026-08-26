@@ -4,8 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#5b5cf0" />
+  <meta name="description" content="SchoolPortal leerling- en docentenportaal" />
   <title>SchoolPortal</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="patch.css" />
 </head>
 <body>
   <div id="toast" class="toast" aria-live="polite"></div>
@@ -23,13 +25,14 @@
     <main class="workspace">
       <header class="topbar">
         <div class="title-wrap"><button id="menuBtn" class="icon-btn mobile">☰</button><div><span id="portalLabel">Leerlingportaal</span><h1 id="pageTitle">Dashboard</h1></div></div>
-        <div class="actions"><label class="search"><span>⌕</span><input id="searchInput" placeholder="Zoeken..." /></label><button id="themeBtn" class="icon-btn">☾</button><button class="icon-btn bell">♧<i></i></button><div id="avatar" class="avatar">LW</div></div>
+        <div class="actions"><label class="search"><span>⌕</span><input id="searchInput" placeholder="Zoeken..." aria-label="Zoeken" /></label><button id="themeBtn" class="icon-btn" aria-label="Thema wisselen">☾</button><button class="icon-btn bell" aria-label="Meldingen">♧<i></i></button><div id="avatar" class="avatar">LW</div></div>
       </header>
       <section id="content" class="content"></section>
     </main>
   </div>
 
-  <dialog id="modal" class="modal"><form method="dialog"><button class="modal-close" value="cancel">×</button><div id="modalContent"></div></form></dialog>
+  <dialog id="modal" class="modal"><form method="dialog"><button class="modal-close" value="cancel" aria-label="Sluiten">×</button><div id="modalContent"></div></form></dialog>
   <script src="script.js"></script>
+  <script src="patch.js"></script>
 </body>
 </html>
