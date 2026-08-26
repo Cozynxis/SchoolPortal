@@ -23,13 +23,18 @@ jobs:
         run: |
           node --check v3-data.js
           node --check v3-core.js
+          node --check v3-icons.js
           node --check v3-student.js
           node --check v3-teacher.js
           node --check v3-app.js
           node --check v3-fixes.js
+          node --check v3-enhance.js
       - name: Verify entrypoint files
         run: |
           test -f index.html
+          test -f style.css
           test -f v3.css
+          grep -q "style.css" index.html
+          grep -q "v3-icons.js" index.html
           grep -q "v3-app.js" index.html
-          grep -q "v3.css" index.html
+          grep -q "v3-enhance.js" index.html
