@@ -1,41 +1,96 @@
 <!doctype html>
-<html lang="nl">
+<html lang="nl" data-theme="light" data-accent="indigo">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#5b5cf0" />
-  <meta name="description" content="SchoolPortal leerling- en docentenportaal" />
-  <title>SchoolPortal</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="patch.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#5b5cf0">
+  <meta name="description" content="SchoolPortal - uitgebreid leerling- en docentenportaal voor GitHub Pages">
+  <meta name="color-scheme" content="light dark">
+  <title>SchoolPortal v2</title>
+  <link rel="stylesheet" href="portal-v2.css">
 </head>
 <body>
   <div id="toast" class="toast" aria-live="polite"></div>
-  <div id="app" class="app">
-    <aside id="sidebar" class="sidebar">
-      <div class="brand"><div class="brandmark">S</div><div><strong>SchoolPortal</strong><span>Delta College</span></div></div>
-      <nav id="nav"></nav>
-      <div class="sidebar-bottom">
-        <div class="role-box"><small>Bekijk als</small><div><button data-role="leerling">Leerling</button><button data-role="docent">Docent</button></div></div>
-        <button class="nav-btn" id="logoutBtn"><span>↪</span> Uitloggen</button>
+
+  <div class="portal-app">
+    <aside id="sidebar" class="sidebar" aria-label="Hoofdnavigatie">
+      <div class="sidebar-brand">
+        <div class="brand">
+          <div class="brandmark">S</div>
+          <div class="brand-copy">
+            <strong>SchoolPortal</strong>
+            <span>Delta College</span>
+          </div>
+        </div>
+        <button id="sidebarToggle" class="icon-small" type="button" title="Zijbalk inklappen" aria-label="Zijbalk inklappen">‹</button>
+      </div>
+
+      <nav id="sideNav" class="side-nav"></nav>
+
+      <div class="sidebar-footer">
+        <div class="role-switch">
+          <small>Bekijk als</small>
+          <div class="role-switch-row">
+            <button type="button" data-role-switch="student">Leerling</button>
+            <button type="button" data-role-switch="teacher">Docent</button>
+          </div>
+        </div>
+
+        <button id="profileButton" class="sidebar-user" type="button">
+          <span id="userAvatar" class="user-avatar">LW</span>
+          <span class="sidebar-user-copy">
+            <strong id="userName">Levi Wassink</strong>
+            <span id="userRole">Leerling · 3M2</span>
+          </span>
+        </button>
       </div>
     </aside>
-    <button id="scrim" class="scrim" aria-label="Menu sluiten"></button>
 
-    <main class="workspace">
+    <button id="sidebarScrim" class="sidebar-scrim" type="button" aria-label="Menu sluiten"></button>
+
+    <main class="main-shell">
       <header class="topbar">
-        <div class="title-wrap"><button id="menuBtn" class="icon-btn mobile">☰</button><div><span id="portalLabel">Leerlingportaal</span><h1 id="pageTitle">Dashboard</h1></div></div>
-        <div class="actions"><label class="search"><span>⌕</span><input id="searchInput" placeholder="Zoeken..." aria-label="Zoeken" /></label><button id="themeBtn" class="icon-btn" aria-label="Thema wisselen">☾</button><button class="icon-btn bell" aria-label="Meldingen">♧<i></i></button><div id="avatar" class="avatar">LW</div></div>
+        <div class="topbar-left">
+          <button id="mobileMenuButton" class="icon-btn mobile-menu" type="button" aria-label="Menu openen">☰</button>
+          <div class="topbar-title">
+            <span id="portalBreadcrumb">Leerlingportaal</span>
+            <h1 id="topPageTitle">Dashboard</h1>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <label class="global-search" title="Zoeken - Ctrl/Cmd + K">
+            <span>⌕</span>
+            <input id="globalSearch" type="search" placeholder="Zoeken..." autocomplete="off" aria-label="Zoeken in huidige pagina">
+          </label>
+          <button id="themeToggle" class="icon-btn" type="button" aria-label="Licht/donker wisselen">☾</button>
+          <button id="notificationButton" class="icon-btn notification-button" type="button" aria-label="Meldingen">♧<i></i></button>
+        </div>
       </header>
-      <section id="content" class="content"></section>
+
+      <section id="pageContent" class="page" aria-live="polite"></section>
     </main>
   </div>
 
-  <dialog id="modal" class="modal">
-    <button class="modal-close" type="button" aria-label="Sluiten" onclick="this.closest('dialog').close()">×</button>
-    <div id="modalContent" style="padding:24px"></div>
+  <dialog id="portalModal" class="portal-modal">
+    <div class="modal-shell">
+      <header class="modal-header">
+        <h2 id="portalModalTitle">SchoolPortal</h2>
+        <button class="icon-small" type="button" aria-label="Sluiten" onclick="this.closest('dialog').close()">×</button>
+      </header>
+      <div id="portalModalBody" class="modal-body"></div>
+      <footer id="portalModalFooter" class="modal-footer"></footer>
+    </div>
   </dialog>
-  <script src="script.js"></script>
-  <script src="patch.js"></script>
+
+  <script src="portal-data.js"></script>
+  <script src="portal-pages.js"></script>
+  <script src="portal-core.js"></script>
+  <script src="portal-actions.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      window.SchoolPortal.init();
+    });
+  </script>
 </body>
 </html>
