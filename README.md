@@ -1,35 +1,107 @@
-# SchoolPortal
+# SchoolPortal v2
 
-Een volledig statisch schoolportaal-prototype voor **GitHub Pages**. Er is geen npm, Node.js, Next.js of backend nodig.
+SchoolPortal is een uitgebreid leerling- en docentenportaal dat volledig als **statische GitHub Pages-app** draait. Er is geen npm, Node.js, Next.js of server nodig.
 
-## Starten met GitHub Pages
+## GitHub Pages
 
-1. Open deze repository op GitHub.
-2. Ga naar **Settings → Pages**.
-3. Kies bij **Build and deployment**: `Deploy from a branch`.
-4. Branch: `main`.
-5. Folder: `/ (root)`.
-6. Klik **Save**.
+Stel de repository in op:
 
-Daarna wordt de site gepubliceerd via GitHub Pages.
+- **Settings → Pages**
+- **Deploy from a branch**
+- Branch: `main`
+- Folder: `/ (root)`
 
-## Bestanden
+De app gebruikt alleen HTML, CSS en vanilla JavaScript.
 
-- `index.html` – de complete applicatie-shell
-- `style.css` – responsive design, dark mode en animaties
-- `script.js` – alle pagina's en interactieve functies
-- `.nojekyll` – zorgt dat GitHub Pages de bestanden rechtstreeks serveert
+## Architectuur
 
-## Ingebouwde onderdelen
+```text
+SchoolPortal/
+├── index.html
+├── portal-data.js
+├── portal-core.js
+├── portal-pages.js
+├── portal-actions.js
+├── portal-v2.css
+├── .nojekyll
+└── README.md
+```
 
-### Leerling
-Dashboard, rooster, huiswerk, toetsen, cijfers, absenties, vakken, berichten, bestanden, profiel en instellingen.
+### `index.html`
+De applicatie-shell: sidebar, topbar, zoekveld, modal en alle scriptimports.
 
-### Docent
-Dashboard, rooster, klassen, aanwezigheid registreren, opdrachten aanmaken, cijfers invoeren, berichten, bestanden, profiel en instellingen.
+### `portal-data.js`
+De uitgebreide demo-datalaag met vakken, docenten, leerlingen, rooster, cijfers, huiswerk, toetsen, berichten, absenties, bestanden, opdrachten en standaardinstellingen.
+
+### `portal-core.js`
+De applicatie-engine: state, localStorage, routing, rolwissel, thema, zoeken, modals, helpers, import/export en algemene rendering.
+
+### `portal-pages.js`
+Alle leerling- en docentpagina's en grote UI-renderers.
+
+### `portal-actions.js`
+Alle interactieve functies: toevoegen, verwijderen, afvinken, cijfers opslaan, aanwezigheid registreren, berichten versturen, opdrachten beheren, mededelingen plaatsen, mentor-notities en meer.
+
+### `portal-v2.css`
+De complete responsive UI-laag met dark mode, meerdere accentkleuren, desktop/tablet/mobiel, animaties, modals, tabellen, rooster, berichteninterface en printweergave.
+
+## Leerlingfuncties
+
+- Dashboard
+- Weekrooster
+- Roosterwijzigingen en lesuitval
+- Huiswerk bekijken, toevoegen, afvinken, filteren en verwijderen
+- Toetsen en herinneringen
+- Cijfers, wegingen en gewogen gemiddeldes
+- Gemiddelde per vak
+- Absenties en lokale ziekmeldingen
+- Vakkenoverzicht
+- Mededelingen
+- Berichten en gesprekken
+- Bestandenoverzicht
+- Profiel wijzigen
+- Dark mode
+- Accentkleuren
+- Compacte modus
+- Lokale backup exporteren/importeren
+
+## Docentfuncties
+
+- Docentdashboard
+- Eigen weekrooster
+- Klassenoverzicht
+- Aanwezigheid per leerling registreren
+- Iedereen in één keer aanwezig zetten
+- Opdrachten aanmaken
+- Publiceren/depubliceren
+- Inleverstatus bekijken
+- Cijfers invoeren en verwijderen
+- Mentorklasoverzicht
+- Leerlingdetails
+- Mentornotities
+- Mededelingen publiceren, vastzetten en verwijderen
+- Berichten
+- Bestanden
+- Profiel en instellingen
 
 ## Opslag
 
-Deze GitHub Pages-versie gebruikt `localStorage`. Daardoor blijven onder andere afgevinkt huiswerk, ingevoerde cijfers, aanwezigheid, instellingen en aangemaakte demo-opdrachten op hetzelfde apparaat bewaard na een refresh.
+SchoolPortal gebruikt `localStorage` onder de sleutel:
 
-GitHub Pages is een statische host en heeft zelf geen privé-database of serverlogin. Voor accounts die tussen verschillende apparaten synchroniseren is later een externe backend nodig, bijvoorbeeld Supabase. De huidige site werkt zonder zo'n backend volledig als interactieve demo/prototype.
+```text
+schoolportal-v2-state
+```
+
+Daardoor blijven wijzigingen na een refresh op hetzelfde apparaat bestaan.
+
+Via **Instellingen → Lokale data** kan de gebruiker:
+
+- een JSON-backup downloaden;
+- een eerdere backup importeren;
+- alle demo-data herstellen.
+
+## Belangrijk over GitHub Pages
+
+GitHub Pages is statische hosting. Daardoor kan deze versie **geen veilige echte gebruikersaccounts, privé-database of server-side rechten** aanbieden. De portal is wel volledig interactief als lokale demo/prototype.
+
+Voor echte synchronisatie tussen leerlingen/docenten/apparaten kan later bijvoorbeeld Supabase worden gekoppeld, terwijl deze frontend grotendeels behouden kan blijven.
