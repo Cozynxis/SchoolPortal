@@ -31,7 +31,10 @@
     </main>
   </div>
 
-  <dialog id="modal" class="modal"><form method="dialog"><button class="modal-close" value="cancel" aria-label="Sluiten">×</button><div id="modalContent"></div></form></dialog>
+  <dialog id="modal" class="modal">
+    <button class="modal-close" type="button" aria-label="Sluiten" onclick="this.closest('dialog').close()">×</button>
+    <div id="modalContent" style="padding:24px"></div>
+  </dialog>
   <script src="script.js"></script>
   <script src="patch.js"></script>
 </body>
