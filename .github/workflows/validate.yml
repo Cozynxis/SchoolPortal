@@ -1,0 +1,35 @@
+name: Validate SchoolPortal V3
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check JavaScript syntax
+        run: |
+          node --check v3-data.js
+          node --check v3-core.js
+          node --check v3-student.js
+          node --check v3-teacher.js
+          node --check v3-app.js
+          node --check v3-fixes.js
+      - name: Verify entrypoint files
+        run: |
+          test -f index.html
+          test -f v3.css
+          grep -q "v3-app.js" index.html
+          grep -q "v3.css" index.html
