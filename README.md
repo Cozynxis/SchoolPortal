@@ -1,107 +1,183 @@
-# SchoolPortal v2
+# SchoolPortal V3
 
-SchoolPortal is een uitgebreid leerling- en docentenportaal dat volledig als **statische GitHub Pages-app** draait. Er is geen npm, Node.js, Next.js of server nodig.
+SchoolPortal V3 is een uitgebreide **statische GitHub Pages-schoolportal** met twee duidelijk verschillende producten in één codebase:
+
+- een rustige, eenvoudige leerlingomgeving;
+- een veel uitgebreidere professionele docentenwerkruimte.
+
+De applicatie gebruikt alleen HTML, CSS en vanilla JavaScript. Er is geen npm, Node.js, Next.js of server nodig om de frontend op GitHub Pages te draaien.
 
 ## GitHub Pages
 
-Stel de repository in op:
+Gebruik:
 
 - **Settings → Pages**
 - **Deploy from a branch**
 - Branch: `main`
 - Folder: `/ (root)`
 
-De app gebruikt alleen HTML, CSS en vanilla JavaScript.
-
-## Architectuur
+## Actieve V3-bestanden
 
 ```text
 SchoolPortal/
 ├── index.html
-├── portal-data.js
-├── portal-core.js
-├── portal-pages.js
-├── portal-actions.js
-├── portal-v2.css
+├── v3-data.js
+├── v3-core.js
+├── v3-student.js
+├── v3-teacher.js
+├── v3-app.js
+├── v3-fixes.js
+├── v3.css
+├── .github/
+│   └── workflows/
+│       └── validate.yml
 ├── .nojekyll
 └── README.md
 ```
 
-### `index.html`
-De applicatie-shell: sidebar, topbar, zoekveld, modal en alle scriptimports.
+### `v3-data.js`
+Demo-database en localStorage-state. Bevat leerlingen, klassen, rooster, cijfers, presentie, opdrachten, toetsen, studiewijzers, berichten, notities en mededelingen.
 
-### `portal-data.js`
-De uitgebreide demo-datalaag met vakken, docenten, leerlingen, rooster, cijfers, huiswerk, toetsen, berichten, absenties, bestanden, opdrachten en standaardinstellingen.
+### `v3-core.js`
+Gedeelde helpers voor UI, datums, gemiddeldes, modals, zoeken, downloaden, toastmeldingen en state-acties.
 
-### `portal-core.js`
-De applicatie-engine: state, localStorage, routing, rolwissel, thema, zoeken, modals, helpers, import/export en algemene rendering.
+### `v3-student.js`
+De complete leerlingomgeving. De UI is bewust rustiger en eenvoudiger dan de docentkant.
 
-### `portal-pages.js`
-Alle leerling- en docentpagina's en grote UI-renderers.
+### `v3-teacher.js`
+De complete docentenwerkruimte met aparte navigatie, dashboard, beheerpagina's, tabellen, roosters, mentoraat en administratie.
 
-### `portal-actions.js`
-Alle interactieve functies: toevoegen, verwijderen, afvinken, cijfers opslaan, aanwezigheid registreren, berichten versturen, opdrachten beheren, mededelingen plaatsen, mentor-notities en meer.
+### `v3-app.js`
+Alle interactieve logica: CRUD, formulieren, drag/drop-rooster, presentie, cijfers, toetsen, opdrachten, berichten, notities, import/export en rolwissel.
 
-### `portal-v2.css`
-De complete responsive UI-laag met dark mode, meerdere accentkleuren, desktop/tablet/mobiel, animaties, modals, tabellen, rooster, berichteninterface en printweergave.
+### `v3-fixes.js`
+Kleine event-delegationlaag voor extra robuustheid bij dynamisch gerenderde onderdelen.
 
-## Leerlingfuncties
+### `v3.css`
+Volledig nieuwe responsive UI voor leerling én docent, inclusief dark mode en mobiele layouts.
 
-- Dashboard
-- Weekrooster
-- Roosterwijzigingen en lesuitval
-- Huiswerk bekijken, toevoegen, afvinken, filteren en verwijderen
-- Toetsen en herinneringen
-- Cijfers, wegingen en gewogen gemiddeldes
-- Gemiddelde per vak
-- Absenties en lokale ziekmeldingen
-- Vakkenoverzicht
-- Mededelingen
-- Berichten en gesprekken
-- Bestandenoverzicht
-- Profiel wijzigen
-- Dark mode
-- Accentkleuren
-- Compacte modus
-- Lokale backup exporteren/importeren
+## Leerlingomgeving
 
-## Docentfuncties
+De leerlingomgeving is bewust beperkt tot dagelijkse schoolzaken:
 
-- Docentdashboard
-- Eigen weekrooster
-- Klassenoverzicht
-- Aanwezigheid per leerling registreren
-- Iedereen in één keer aanwezig zetten
-- Opdrachten aanmaken
-- Publiceren/depubliceren
-- Inleverstatus bekijken
-- Cijfers invoeren en verwijderen
-- Mentorklasoverzicht
-- Leerlingdetails
-- Mentornotities
-- Mededelingen publiceren, vastzetten en verwijderen
+- Vandaag
+- Rooster
+- Studiewijzer
+- Cijfers
 - Berichten
-- Bestanden
-- Profiel en instellingen
+- Registraties
+- Profiel
+- Instellingen
+- Huiswerk afvinken
+- Lesdetails openen
+- Dark mode
+- Mobiele bottom navigation
+- Globaal zoeken
+
+## Docentenomgeving
+
+De docentkant is veel uitgebreider en heeft een compleet andere UI.
+
+### Werkdag
+
+- Vandaag-dashboard
+- Roosterbeheer
+- Lessen
+- Persoonlijke afspraken
+- Lesafspraken toevoegen, wijzigen en verwijderen
+- Roosteritems met drag & drop verplaatsen
+- Lesstatus zoals gewijzigd of uitgevallen
+
+### Leerlingen & klassen
+
+- Klassenoverzicht
+- Nieuwe klassen maken
+- Klassen bewerken
+- Leerlingen zoeken
+- Leerlingen aanmaken
+- Leerlingen bewerken
+- Leerlingen verwijderen
+- Leerlingen naar andere klas verplaatsen
+- CSV-demo import
+- CSV export
+- Leerlingdetailoverzicht
+- Signalen/tags
+- Contactgegevens en verzorgers
+
+### Presentie
+
+- Presentieregistratie per leerling
+- Aanwezig
+- Te laat
+- Geoorloofd afwezig
+- Ongeoorloofd afwezig
+- Iedereen tegelijk aanwezig zetten
+- Notitie per registratie
+- Les afsluiten
+
+### Resultaten
+
+- Resultatenboek per klas
+- Gewogen gemiddelden
+- Resultaat invoeren
+- Resultaat wijzigen
+- Resultaat verwijderen
+- Nieuwe toetskolommen
+- Kleurcodering
+
+### Onderwijs
+
+- Toetsen plannen en bewerken
+- Wegingen
+- Concept/gepubliceerd
+- Inleveropdrachten maken
+- Inleverstatus volgen
+- Nakijk-demo
+- Herinneringen voor ontbrekende inleveringen
+- Studiewijzers maken
+- Studiewijzers bewerken
+- Huiswerk, materiaal en toetsen aan studiewijzer toevoegen
+
+### Mentoraat
+
+- Mentordashboard
+- Resultaten per mentorleerling
+- Registraties per mentorleerling
+- Signalen
+- Notitieboek
+- Privé/gedeelde notities
+- Leerlingoverzicht
+
+### School & beheer
+
+- Communicatiecentrum
+- Berichten naar klas, ouders of team
+- Concepten en verzonden berichten
+- Schoolmededelingen
+- Bestanden-interface
+- Administratiepagina
+- Activiteitenlog
+- JSON-back-up
+- JSON-back-up herstellen
+- Demo-data resetten
+- Docentprofiel aanpassen
 
 ## Opslag
 
-SchoolPortal gebruikt `localStorage` onder de sleutel:
+SchoolPortal V3 gebruikt localStorage:
 
 ```text
-schoolportal-v2-state
+schoolportal-v3
 ```
 
-Daardoor blijven wijzigingen na een refresh op hetzelfde apparaat bestaan.
+Alle wijzigingen blijven dus op hetzelfde apparaat en in dezelfde browser bewaard.
 
-Via **Instellingen → Lokale data** kan de gebruiker:
+## Automatische controle
 
-- een JSON-backup downloaden;
-- een eerdere backup importeren;
-- alle demo-data herstellen.
+De GitHub Actions-workflow `Validate SchoolPortal V3` draait automatisch bij iedere push en controleert onder andere de JavaScript-syntax met `node --check`.
 
-## Belangrijk over GitHub Pages
+## Belangrijke beperking van GitHub Pages
 
-GitHub Pages is statische hosting. Daardoor kan deze versie **geen veilige echte gebruikersaccounts, privé-database of server-side rechten** aanbieden. De portal is wel volledig interactief als lokale demo/prototype.
+GitHub Pages is statische hosting. Hierdoor zijn de huidige accounts, rechten en gegevens **demo/lokaal**. Zonder externe backend kan een echte docentwijziging niet automatisch naar het apparaat van een echte leerling synchroniseren.
 
-Voor echte synchronisatie tussen leerlingen/docenten/apparaten kan later bijvoorbeeld Supabase worden gekoppeld, terwijl deze frontend grotendeels behouden kan blijven.
+Voor productiegebruik kan later een externe backend zoals Supabase worden gekoppeld. De huidige frontendarchitectuur kan daarbij grotendeels behouden blijven.
