@@ -5,10 +5,9 @@
     const SP = window.SP;
     if (!SP || !window.SPApp) return;
 
-    const appRoot = document.getElementById('app');
     const modal = document.getElementById('modal');
+    const icon = (name,size=18) => SP.ui.svgIcon ? SP.ui.svgIcon(name,size) : SP.ui.icon(name);
 
-    // Ripple feedback on interactive controls.
     document.addEventListener('pointerdown', (event) => {
       const target = event.target.closest('button,.btn,[role="button"],.student-tab,.teacher-nav-item');
       if (!target || target.disabled) return;
@@ -21,12 +20,10 @@
       setTimeout(() => dot.remove(), 520);
     }, {passive:true});
 
-    // Close dialog when clicking its backdrop.
     modal?.addEventListener('click', (event) => {
       if (event.target === modal) modal.close();
     });
 
-    // Global keyboard shortcuts.
     document.addEventListener('keydown', (event) => {
       const meta = event.ctrlKey || event.metaKey;
       const tag = document.activeElement?.tagName;
@@ -34,11 +31,8 @@
 
       if (meta && event.key.toLowerCase() === 'k') {
         event.preventDefault();
-        if (SP.state.role === 'teacher') {
-          document.querySelector('[data-command]')?.click();
-        } else {
-          document.querySelector('[data-student-search]')?.click();
-        }
+        if (SP.state.role === 'teacher') document.querySelector('[data-command]')?.click();
+        else document.querySelector('[data-student-search]')?.click();
       }
 
       if (meta && event.key.toLowerCase() === 'n' && SP.state.role === 'teacher') {
@@ -51,17 +45,28 @@
         document.querySelector('[data-command]')?.click();
       }
 
-      if (event.key === 'Escape') {
-        document.querySelector('.teacher-rail.mobile-open')?.classList.remove('mobile-open');
-      }
+      if (event.key === 'Escape') document.querySelector('.teacher-rail.mobile-open')?.classList.remove('mobile-open');
     });
 
-    // Add keyboard shortcut hints and page context after every render.
     const originalRender = window.SPApp.render.bind(window.SPApp);
     window.SPApp.render = function(){
       originalRender();
       polishRenderedView();
     };
+
+    function setIconOnly(selector,name,label){
+      const el=document.querySelector(selector);
+      if(!el)return;
+      el.innerHTML=icon(name,18);
+      if(label){el.setAttribute('aria-label',label);el.dataset.tooltip=label;}
+    }
+
+    function replaceLeadingSymbol(selector,name){
+      document.querySelectorAll(selector).forEach(el=>{
+        const first=el.querySelector(':scope > span:first-child');
+        if(first)first.innerHTML=icon(name,17);
+      });
+    }
 
     function polishRenderedView(){
       requestAnimationFrame(() => {
@@ -75,21 +80,50 @@
           if (!node.dataset.tooltip) node.dataset.tooltip = node.getAttribute('title');
         });
 
-        document.querySelectorAll('table').forEach((table) => {
-          table.closest('.table-shell,.table-wrap')?.classList.add('has-modern-table');
-        });
+        document.querySelectorAll('.badge').forEach((badge) => badge.setAttribute('aria-label', badge.textContent.trim()));
 
-        document.querySelectorAll('.badge').forEach((badge) => {
-          badge.setAttribute('aria-label', badge.textContent.trim());
-        });
+        // Student chrome icons.
+        setIconOnly('[data-student-search]','search','Zoeken');
+        setIconOnly('[data-student-theme]',SP.state.theme==='dark'?'sun':'moon','Thema wisselen');
+        const more=document.querySelector('.student-bottom [data-student-menu] > span:first-child');
+        if(more)more.innerHTML=icon('more',19);
+
+        // Teacher chrome icons.
+        const mobile=document.querySelector('[data-teacher-mobile]');
+        if(mobile){mobile.innerHTML=icon('menu',19);mobile.setAttribute('aria-label','Menu openen');}
+        const command=document.querySelector('[data-command] > span:first-child');
+        if(command)command.innerHTML=icon('search',16);
+        const quick=document.querySelector('[data-quick-create]');
+        if(quick){const text=quick.querySelector('span');quick.innerHTML=`${icon('plus',16)}${text?`<span>${text.textContent}</span>`:'<span>Nieuw</span>'}`;}
+        setIconOnly('[data-notifications]','bell','Meldingen');
+        setIconOnly('[data-teacher-theme]',SP.state.theme==='dark'?'sun':'moon','Thema wisselen');
+
+        // Quick action cards.
+        const quickMap={
+          '[data-create-student]':'students',
+          '[data-new-grade]':'grades',
+          '[data-new-assignment]':'assignments',
+          '[data-new-message]':'messages',
+          '[data-new-test]':'tests',
+          '[data-new-note]':'notes'
+        };
+        Object.entries(quickMap).forEach(([selector,name])=>replaceLeadingSymbol(`.teacher-quick-grid ${selector}`,name));
+
+        // Search fields and common table actions.
+        document.querySelectorAll('.search-field > span:first-child').forEach(s=>s.innerHTML=icon('search',15));
+        document.querySelectorAll('.table-action').forEach(b=>{if(b.textContent.includes('•'))b.innerHTML=icon('more',17);});
+
+        // Generic next arrows become consistent chevrons.
+        document.querySelectorAll('.next-arrow').forEach(b=>{b.innerHTML=icon('chevron',20);b.setAttribute('aria-label','Open rooster');});
       });
     }
 
-    // Mutation observer keeps polish applied to modal contents too.
     const observer = new MutationObserver(() => {
       document.querySelectorAll('#modal button').forEach(b => {
         if (!b.hasAttribute('type')) b.setAttribute('type','button');
       });
+      const autofocus=document.querySelector('#modal [autofocus]');
+      if(autofocus && document.activeElement!==autofocus)setTimeout(()=>autofocus.focus(),20);
     });
     if (modal) observer.observe(modal,{childList:true,subtree:true});
 
